@@ -18,9 +18,9 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { firstName, lastName } = fullName;
+    
 
-    if (firstName.trim() && lastName.trim()) {
+    if (fullName.firstName.trim() && fullName.lastName.trim()) {
       setIsSubmitted(true);
     } else {
       setIsSubmitted(false);
@@ -30,11 +30,11 @@ function App() {
 
   return (
     <div className="app-container">
-      <form onSubmit={handleSubmit}>
+      <form action="submit" onSubmit={handleSubmit}>
         <h1>Full Name Display</h1>
 
         <div className="form-group">
-          <label htmlFor="firstName">First Name:</label>
+          <label htmlFor="firstName">First Name:
           <input
             type="text"
             id="firstName"
@@ -43,11 +43,13 @@ function App() {
             onChange={handleChange}
             placeholder="Enter first name"
             required
+            
           />
+          </label>
         </div>
 
         <div className="form-group">
-          <label htmlFor="lastName">Last Name:</label>
+          <label htmlFor="lastName">Last Name:
           <input
             type="text"
             id="lastName"
@@ -57,6 +59,7 @@ function App() {
             placeholder="Enter last name"
             required
           />
+          </label>
         </div>
 
         <button type="submit">Submit</button>
@@ -64,10 +67,8 @@ function App() {
 
       {isSubmitted && (
         <div className="result">
-          <h2>Full Name:</h2>
-          <p>
-            {fullName.firstName} {fullName.lastName}
-          </p>
+          <h2>{`Full Name:${fullName.firstName} ${fullName.lastName}`}</h2>
+            
         </div>
       )}
     </div>
