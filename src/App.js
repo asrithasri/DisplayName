@@ -1,72 +1,73 @@
 import { useState } from "react";
-import './App.css';
+import "./App.css";
 
 function App() {
-
-  // Initialize with empty strings to avoid undefined issues
-  const [fullName, setFullName] = useState({ firstName: "", lastName: "" });
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [fullName, setFullName] = useState({
+    firstName: "",
+    lastName: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    let value = e.target.value;
-    setFullName({
-      ...fullName,
-      [e.target.name]: value,
-    });
+    const { name, value } = e.target;
+    setFullName((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    // Check that both fields are filled before setting isSubmit to true
     if (fullName.firstName.trim() && fullName.lastName.trim()) {
-      setIsSubmit(true);
+      setIsSubmitted(true);
     } else {
-      setIsSubmit(false);
+      setIsSubmitted(false);
+      alert("Please fill out both first name and last name.");
     }
   };
 
   return (
-    <div>
+    <div className="app-container">
       <form action="submit" onSubmit={handleSubmit}>
         <h1>Full Name Display</h1>
-        <div>
-          <label htmlFor="firstName">
-            First Name:
-            <input
-              type='text'
-              id='firstName'
-              name='firstName'
-              onChange={handleChange}
-              placeholder="Enter first name"
-              value={fullName.firstName}
-              required
-            />
-          </label>
-        </div>
-        <br />
 
-        <div>
-          <label htmlFor="lastName">
-            Last Name:
-            <input
-              type='text'
-              id='lastName'
-              name='lastName'
-              onChange={handleChange}
-              placeholder="Enter last name"
-              value={fullName.lastName}
-              required
-            />
+        <div className="form-group">
+          <label htmlFor="firstName">First Name:
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={fullName.firstName}
+            onChange={handleChange}
+            placeholder="Enter first name"
+            required
+            
+          />
           </label>
         </div>
-        <br />
-        <button type='submit'>Submit</button>
+
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name:
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={fullName.lastName}
+            onChange={handleChange}
+            placeholder="Enter last name"
+            required
+          />
+          </label>
+        </div>
+
+        <button type="submit">Submit</button>
       </form>
-      <br />
-      {isSubmit && (
+
+      {isSubmitted && (
         <div className="result">
-          {`Full Name: ${fullName.firstName} ${fullName.lastName}`}
+          <h2>{`Full Name:${fullName.firstName} ${fullName.lastName}`}</h2>
+            
         </div>
       )}
     </div>
