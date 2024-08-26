@@ -1,77 +1,58 @@
-import { useState } from "react";
-import "./App.css";
 
-function App() {
-  const [fullName, setFullName] = useState({
-    firstName: "",
-    lastName: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+import React, { useState } from 'react';
+import './App.css';
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFullName((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+const App = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [fullName, setFullName] = useState('');
+
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value);
   };
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
+  };
+
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (fullName.firstName.trim() && fullName.lastName.trim()) {
-      setIsSubmitted(true);
-    } else {
-      setIsSubmitted(false);
-      alert("Please fill out both first name and last name.");
+    if (!firstName || !lastName) {
+      alert('Please fill out this field');
+      return;
     }
+    setFullName(`${firstName} ${lastName}`);
   };
 
   return (
-    <div className="app-container">
-      <form action="submit" onSubmit={handleSubmit}>
-        <h1>Full Name Display</h1>
-
-        <div className="form-group">
-          <label htmlFor="firstName">First Name:
+    <div className="App">
+      <h1>Full Name Display</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>First Name: </label>
           <input
             type="text"
-            id="firstName"
-            name="firstName"
-            value={fullName.firstName}
-            onChange={handleChange}
-            placeholder="Enter first name"
-            required
-            
+            value={firstName}
+            onChange={handleFirstNameChange}
+            placeholder="Enter First Name"
           />
-          </label>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name:
+        <div>
+          <label>Last Name: </label>
           <input
             type="text"
-            id="lastName"
-            name="lastName"
-            value={fullName.lastName}
-            onChange={handleChange}
-            placeholder="Enter last name"
-            required
+            value={lastName}
+            onChange={handleLastNameChange}
+            placeholder="Enter Last Name"
           />
-          </label>
         </div>
-
         <button type="submit">Submit</button>
       </form>
-
-      {isSubmitted && (
-        <div className="result">
-          <h2>{`Full Name:${fullName.firstName} ${fullName.lastName}`}</h2>
-            
-        </div>
-      )}
+      {fullName && <h2>Full Name: {fullName}</h2>}
     </div>
   );
-}
+};
 
 export default App;
