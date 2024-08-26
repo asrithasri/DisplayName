@@ -1,32 +1,67 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import './App.css';
 
 function App() {
 
-  const [name,setName] = useState("");
+  const [fullName, setFullName] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
-  const handleSubmit =(event)=>{
-    event.preventDefault();
-    setName(`${event.target.fname.value} ${event.target.lname.value}`);
+  const handleChange = (e) => {
+    let value = e.target.value;
+    setFullName({
+      ...fullName,
+      [e.target.name]: value,
+    });
   };
-  
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (fullName.firstName !== undefined && fullName.lastName !== undefined) {
+      setIsSubmit(true);
+    }
+  };
 
   return (
     <div>
-      <h1>Full Name Display</h1>
-      <form action="#" onSubmit={handleSubmit}>
-      <lable for="fname">First Name: </lable>
-      <input type='text' id='fname' name='fname' placeholder="Enter first name" required></input>
-      <br></br>
-      <label for="lname">Last Name: </label>
-      <input type='text' id='lname' name='lname' placeholder="Enter last name" required></input>
+      <form action="submit" onSubmit={handleSubmit}>
+        <h1>Full Name Display</h1>
+        <div>
+          <label htmlFor="firstName">
+            First Name:
+            <input
+              type='text'
+              id='firstName'
+              name='firstName'
+              onChange={handleChange}
+              placeholder="Enter first name"
+              required
+            />
+          </label>
+        </div>
+        <br />
 
-      <br></br>
-      <button  type='submit' value='submit' >Submit</button>
+        <div>
+          <label htmlFor="lastName">
+            Last Name:
+            <input
+              type='text'
+              id='lastName'
+              name='lastName'
+              onChange={handleChange}
+              placeholder="Enter last name"
+              required
+            />
+          </label>
+        </div>
+        <br />
+        <button type='submit'>Submit</button>
       </form>
-      <br/>
-      {name && <p>Full Name : {name}</p>}
+      <br />
+      {isSubmit && (
+        <div>
+          {`Full Name: ${fullName.firstName} ${fullName.lastName}`}
+        </div>
+      )}
     </div>
   );
 }
